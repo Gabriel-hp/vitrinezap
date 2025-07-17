@@ -1,2 +1,0 @@
-# vitrinezap
-Catalogo Web 

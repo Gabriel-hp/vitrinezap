@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VitrineZap - Catálogo Digital (HTML/CSS/JS)</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <!-- Bootstrap Icons (para ícones) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <div class="top-bar">
+            <div class="container">
+                <div class="d-flex gap-3">
+                    <span><i class="bi bi-truck"></i> Frete grátis acima de R$ 99</span>
+                </div>
+                <div class="d-none d-md-flex gap-3">
+                    <span>Ajuda</span>
+                </div>
+            </div>
+        </div>
+        <div class="main-header">
+            <div class="container">
+                <a href="#" class="logo"><i class="bi bi-bag-heart-fill"></i> VitrineZap</a>
+                <div class="search-bar">
+                    <input type="search" id="searchInput" placeholder="Buscar produtos...">
+                    <button id="searchButton"><i class="bi bi-search"></i></button>
+                </div>
+                <div class="header-actions">
+                    <button><i class="bi bi-bell"></i><span class="badge">3</span></button>
+                    <button id="cartButton"><i class="bi bi-cart3"></i><span class="badge" id="cartItemCount">0</span></button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="promo-banner container">
+            <div class="carousel-container" id="bannerCarousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item gradient-orange active color: #2196F3;">
+                        <div>
+                            <h2>MEGA PROMOÇÃO</h2>
+                            <p>Até 70% OFF em produtos selecionados</p>
+                            <button>Comprar Agora</button>
+                        </div>
+                        <i class="bi bi-gift" style="font-size: 5rem; opacity: 0.25; color: #2196F3;"></i>
+                    </div>
+                    <div class="carousel-item gradient-success">
+                        <div>
+                            <h2>FRETE GRÁTIS</h2>
+                            <p>Em compras acima de R$ 99</p>
+                            <button>Aproveitar</button>
+                        </div>
+                        <i class="bi bi-truck" style="font-size: 5rem; opacity: 0.25; color: #2196F3;"></i>
+                    </div>
+                    <div class="carousel-item gradient-warning">
+                        <div>
+                            <h2>NOVIDADES</h2>
+                            <p>Confira os lançamentos da semana</p>
+                            <button>Ver Produtos</button>
+                        </div>
+                        <i class="bi bi-lightning-charge" style="font-size: 5rem; opacity: 0.25;"></i>
+                    </div>
+                </div>
+                <button class="carousel-nav-btn prev" id="carouselPrev"><i class="bi bi-chevron-left"></i></button>
+                <button class="carousel-nav-btn next" id="carouselNext"><i class="bi bi-chevron-right"></i></button>
+                <div class="carousel-dots" id="carouselDots"></div>
+            </div>
+
+            
+
+            <div class="featured-products-alert">
+                <div>
+                    <i class="bi bi-fire"></i>
+                    <h5>🔥 PRODUTOS EM DESTAQUE</h5>
+                    <p>Ofertas imperdíveis por tempo limitado!</p>
+                </div>
+                <span class="badge">LIMITADO</span>
+            </div>
+        </section>
+
+        <section class="product-catalog container">
+            <div class="product-filters">
+                <div class="filter-row">
+                    <div class="search-input">
+                        <i class="bi bi-search"></i>
+                        <input type="text" id="filterSearchInput" placeholder="Buscar produtos...">
+                    </div>
+                    <select id="sortSelect">
+                        <option value="popular">Mais Populares</option>
+                        <option value="price-low">Menor Preço</option>
+                        <option value="price-high">Maior Preço</option>
+                        <option value="rating">Melhor Avaliação</option>
+                        <option value="newest">Mais Recentes</option>
+                    </select>
+                    <button id="toggleFiltersButton"><i class="bi bi-funnel"></i> Filtros</button>
+                </div>
+                <div class="filter-tags" id="activeFilters"></div>
+                <div class="filter-section" id="expandedFilters" style="display: none;">
+                    <h4>Categorias</h4>
+                    <div class="filter-tags" id="categoryFilters"></div>
+                    <h4>Faixa de Preço</h4>
+                    <div class="price-range-slider">
+                        <div class="range-track" id="priceRangeTrack"></div>
+                        <div class="range-thumb" id="priceThumbMin"></div>
+                        <div class="range-thumb" id="priceThumbMax"></div>
+                    </div>
+                    <div class="price-range-values">
+                        <span id="priceMinDisplay">R$ 0</span>
+                        <span id="priceMaxDisplay">R$ 1000</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-grid" id="productGrid">
+                <!-- Product cards will be injected here by JavaScript -->
+            </div>
+
+            <div class="pagination" id="paginationControls">
+                <!-- Pagination buttons will be injected here by JavaScript -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <h3>VitrineZap</h3>
+            <p>Seu catálogo digital inteligente</p>
+            <div class="links">
+                <a href="#">Sobre</a>
+                <a href="#">Contato</a>
+                <a href="#">Suporte</a>
+            </div>
+            <div class="copyright">
+                © 2024 VitrineZap. Todos os direitos reservados.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Product Modal -->
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close-btn" id="modalCloseBtn">&times;</span>
+            <div class="modal-image-gallery">
+                <img src="/img/feminino/vestido_branco.jpg" alt="Product Image" class="modal-main-image" id="modalMainImage">
+                <div class="modal-thumbnails" id="modalThumbnails"></div>
+            </div>
+            <div class="modal-details">
+                <div>
+                    <h3 id="modalProductName"></h3>
+                    <div class="price" id="modalProductPrice"></div>
+                    <p class="description" id="modalProductDescription"></p>
+                </div>
+                <div class="actions">
+                    <button class="add-to-cart-btn" id="modalAddToCartBtn"><i class="bi bi-cart3"></i> Adicionar ao Carrinho</button>
+                    <button class="buy-now-btn" id="modalBuyNowBtn"><i class="bi bi-whatsapp"></i> Comprar Agora via WhatsApp</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Sidebar -->
+    <div id="cartSidebar" class="cart-sidebar">
+        <div class="cart-header">
+            <h3>Carrinho de Compras</h3>
+            <span class="close-btn" id="cartCloseBtn">&times;</span>
+        </div>
+        <div class="cart-items" id="cartItemsContainer">
+            <p class="empty-cart-message">Seu carrinho está vazio</p>
+        </div>
+        <div class="cart-summary">
+            <div class="total">
+                <span>Total:</span>
+                <span id="cartTotal">R$ 0,00</span>
+            </div>
+            <button id="checkoutBtn"><i class="bi bi-whatsapp"></i> Finalizar Pedido via WhatsApp</button>
+        </div>
+    </div>
+
+    <!-- Floating WhatsApp Button -->
+    <button class="floating-whatsapp-btn" id="floatingWhatsAppBtn">
+        <i class="bi bi-whatsapp"></i>
+    </button>
+
+    <script>
+        // Mock Product Data
+        const products =[
+  {
+    "id": "1",
+    "name": "Camisa Polo Premium",
+    "price": 89.90,
+    "originalPrice": 129.90,
+    "description": "Camisa polo de alta qualidade, 100% algodão.",
+    "fullDescription": "Camisa polo premium confeccionada em 100% algodão penteado. Possui corte moderno, gola estruturada e acabamento impecável. Disponível em várias cores e tamanhos.",
+    "images": [
+      "/img/masculino/camisa_polo_azul.jpg?height=300&width=300",
+      "/placeholder.svg?height=300&width=300"
+    ],
+    "categories": [
+      "Masculino",
+      "Camisa",
+      "Premium"
+    ],
+    "isPromo": true,
+    "discount": 31,
+    "rating": 4.8,
+    "sold": 234
+  },
+  {
+    "id": "2",
+    "name": "Calça Jeans Skinny",
+    "price": 129.90,
+    "originalPrice": 179.90,
+    "description": "Calça jeans skinny com elastano.",
+    "fullDescription": "Calça jeans skinny moderna com 2% de elastano para maior conforto e mobilidade. Lavagem escura, cinco bolsos tradicionais e modelagem que valoriza o corpo.",
+    "images": [
+      "/img/masculino/calca_jeans_skinny.jpg?height=300&width=300",
+      "/placeholder.svg?height=300&width=300"
+    ],
+    "categories": [
+      "Masculino",
+      "Calça",
+      "Jeans"
+    ],
+    "isPromo": true,
+    "discount": 28,
+    "rating": 4.6,
+    "sold": 156
+  },
+  {
+    "id": "3",
+    "name": "Vestido Floral Verão",
+    "price": 159.90,
+    "description": "Vestido floral leve para o verão.",
+    "fullDescription": "Vestido midi com estampa floral delicada, tecido leve e fluido perfeito para os dias quentes. Possui amarração na cintura e decote em V discreto.",
+    "images": [
+      "/img/feminino/vestido_floral.jpg?height=300&width=300",
+      "/placeholder.svg?height=300&width=300"
+    ],
+    "categories": [
+      "Feminino",
+      "Vestido",
+      "Verão"
+    ],
+    "rating": 4.9,
+    "sold": 89
+  },
+  {
+    "id": "4",
+    "name": "Tênis Esportivo Pro Runner",
+    "price": 199.90,
+    "originalPrice": 299.90,
+    "description": "Tênis esportivo para corrida e academia.",
+    "fullDescription": "Tênis esportivo com tecnologia de amortecimento avançada, solado antiderrapante e cabedal respirável. Ideal para corrida, caminhada e atividades físicas.",
+    "images": [
+      "/img/calcados/tenis_esportivo_cinza.jpg?height=300&width=300",
+      "/placeholder.svg?height=300&width=300"
+    ],
+    "categories": [
+      "Calçados",
+      "Esporte",
+      "Unissex"
+    ],
+    "isPromo": true,
+    "discount": 33,
+    "rating": 4.7,
+    "sold": 312
+  },
+  {
+    "id": "5",
+    "name": "Conjunto Infantil Dinossauro",
+    "price": 79.90,
+    "description": "Conjunto de camiseta e bermuda infantil com estampa de dinossauro.",
+    "fullDescription": "Conjunto infantil divertido e confortável, perfeito para o dia a dia. Camiseta em algodão macio e bermuda com elástico na cintura para ajuste perfeito. Estampa de dinossauro que as crianças adoram.",
+    "images": [
+      "/img/infantil/conjunto_dinossauro.jpg?height=300&width=300",
+      "/placeholder.svg?height=300&width=300"
+    ],
+    "categories": [
+      "Infantil",
+      "Roupa",
+      "Menino"
+    ],
+    "rating": 4.5,
+    "sold": 110
+  },
+  {
+    "id": "6",
+    "name": "Blusa Tricô Feminina",
+    "price": 99.90,
+    "description": "Blusa de tricô elegante para o inverno.",
+    "fullDescription": "Blusa de tricô com caimento perfeito, ideal para os dias mais frios. Confeccionada em fio macio e aconchegante, possui gola alta e detalhes em trançado. Combina com diversas ocasiões.",
+    "images": [
+      "/img/feminino/blusa_trico.jpg?height=300&width=300",
+      "/placeholder.svg?height=300&width=300"
+    ],
+    "categories": [
+      "Feminino",
+      "Blusa",
+      "Inverno"
+    ],
+    "rating": 4.7,
+    "sold": 65
+  },
+{
+    "id": "8",
+    "name": "Sandália Rasteirinha Feminina",
+    "price": 59.90,
+    "description": "Sandália rasteirinha confortável para o dia a dia.",
+    "fullDescription": "Rasteirinha com design moderno e palmilha macia para o máximo conforto. Perfeita para os dias quentes e para compor looks casuais e despojados.",
+    "images": [
+      "/img/feminino/rasteirinha.jpg?height=300&width=300",
+      "/placeholder.svg?height=300&width=300"
+    ],
+    "categories": [
+      "Feminino",
+      "Calçados",
+      "Verão"
+    ],
+    "rating": 4.6,
+    "sold": 95
+  },
+  {
+    "id": "9",
+    "name": "Mochila Escolar Infantil",
+    "price": 119.90,
+    "description": "Mochila escolar com tema de super-herói.",
+    "fullDescription": "Mochila infantil espaçosa e resistente, ideal para a escola. Possui compartimentos internos, bolsos laterais para garrafa e alças acolchoadas para maior conforto. Estampa de super-herói.",
+    "images": [
+      "/img/infantil/mochila_escolar.jpg?height=300&width=300",
+      "/placeholder.svg?height=300&width=300"
+    ],
+    "categories": [
+      "Infantil",
+      "Acessório",
+      "Escolar"
+    ],
+    "rating": 4.8,
+    "sold": 70
+  },
+  {
+    "id": "10",
+    "name": "Camisa Social Slim Fit",
+    "price": 149.90,
+    "originalPrice": 199.90,
+    "description": "Camisa social masculina slim fit, tecido premium.",
+    "fullDescription": "Camisa social masculina com corte slim fit que se ajusta perfeitamente ao corpo. Confeccionada em tecido de alta qualidade, ideal para ocasiões formais e de trabalho. Design moderno e elegante.",
+    "images": [
+      "/img/masculino/camisa_social.jpg?height=300&width=300",
+      "/placeholder.svg?height=300&width=300"
+    ],
+    "categories": [
+      "Masculino",
+      "Camisa",
+      "Social"
+    ],
+    "isPromo": true,
+    "discount": 25,
+    "rating": 4.7,
+    "sold": 180
+  },
+  {
+    "id": "11",
+    "name": "Biquíni Cintura Alta",
+    "price": 139.90,
+    "description": "Biquíni feminino cintura alta, conforto e estilo.",
+    "fullDescription": "Biquíni moderno com calcinha cintura alta que oferece conforto e modelagem. Top com bojo removível e alças ajustáveis. Estampa exclusiva para realçar seu estilo na praia ou piscina.",
+    "images": [
+      "/img/feminino/biquini_cintura_alta.jpg?height=300&width=300",
+      "/img/feminino/biquini_cintura_alta.jpg"
+    ],
+    "categories": [
+      "Feminino",
+      "Moda Praia"
+    ],
+    "rating": 4.6,
+    "sold": 55
+  },
+  {
+    "id": "12",
+    "name": "Sapato Social Couro",
+    "price": 249.90,
+    "originalPrice": 329.90,
+    "description": "Sapato social masculino em couro legítimo.",
+    "fullDescription": "Sapato social clássico confeccionado em couro legítimo de alta durabilidade. Solado antiderrapante e palmilha macia para máximo conforto. Perfeito para eventos formais e ambiente de trabalho.",
+    "images": [
+      "/img/calcados/sapato_social.jpg?height=300&width=300",
+      "/placeholder.svg?height=300&width=300"
+    ],
+    "categories": [
+      "Masculino",
+      "Calçados",
+      "Social"
+    ],
+    "isPromo": true,
+    "discount": 24,
+    "rating": 4.9,
+    "sold": 120
+  },
+  {
+    "id": "13",
+    "name": "Pijama Infantil Algodão",
+    "price": 69.90,
+    "description": "Pijama infantil em algodão, tema de personagens.",
+    "fullDescription": "Pijama infantil super confortável em 100% algodão, ideal para uma noite de sono tranquila. Estampa divertida de personagens favoritos. Disponível em diversos tamanhos.",
+    "images": [
+      "/img/infantil/pijama_infantil.jpg?height=300&width=300",
+      "/placeholder.svg?height=300&width=300"
+    ],
+    "categories": [
+      "Infantil",
+      "Roupa",
+      "Pijama"
+    ],
+    "rating": 4.7,
+    "sold": 80
+  },
+  {
+    "id": "14",
+    "name": "Saia Jeans Midi",
+    "price": 109.90,
+    "description": "Saia jeans midi com fenda frontal.",
+    "fullDescription": "Saia jeans midi com lavagem moderna e fenda frontal que adiciona um toque de estilo. Confeccionada em jeans de alta qualidade, perfeita para looks casuais e elegantes.",
+    "images": [
+      "/img/feminino/saia_jeans_midi.jpg?height=300&width=300",
+      "/placeholder.svg?height=300&width=300"
+    ],
+    "categories": [
+      "Feminino",
+      "Saia",
+      "Jeans"
+    ],
+    "rating": 4.5,
+    "sold": 75
+  },
+  {
+    "id": "15",
+    "name": "Jaqueta Corta Vento Masculina",
+    "price": 179.90,
+    "originalPrice": 249.90,
+    "description": "Jaqueta corta vento masculina impermeável.",
+    "fullDescription": "Jaqueta corta vento masculina leve e impermeável, ideal para atividades ao ar livre. Possui capuz ajustável, zíper frontal e bolsos funcionais. Perfeita para proteger do vento e da chuva leve.",
+    "images": [
+      "/img/masculino/jaqueta_corta_vento.jpg?height=300&width=300",
+      "/placeholder.svg?height=300&width=300"
+    ],
+    "categories": [
+      "Masculino",
+      "Jaqueta",
+      "Esporte"
+    ],
+    "isPromo": true,
+    "discount": 28,
+    "rating": 4.6,
+    "sold": 130
+  },
+  {
+    "id": "16",
+    "name": "Body Bebê Algodão Orgânico",
+    "price": 49.90,
+    "description": "Body de bebê em algodão orgânico, hipoalergênico.",
+    "fullDescription": "Body de bebê confeccionado em algodão orgânico, super macio e hipoalergênico. Ideal para a pele sensível do bebê. Fechamento com botões de pressão para facilitar a troca.",
+    "images": [
+      "/img/infantil/body_bebe_organico.jpg?height=300&width=300",
+      "/placeholder.svg?height=300&width=300"
+    ],
+    "categories": [
+      "Infantil",
+      "Bebê",
+      "Roupa"
+    ],
+    "rating": 4.9,
+    "sold": 150
+  },
+  {
+    "id": "17",
+    "name": "Bolsa Transversal Feminina",
+    "price": 119.90,
+    "description": "Bolsa transversal feminina, design moderno.",
+    "fullDescription": "Bolsa transversal feminina com design elegante e funcional. Possui compartimentos internos, alça ajustável e fechamento com zíper. Perfeita para o dia a dia e para carregar o essencial.",
+    "images": [
+      "/img/feminino/bolsa_transversal.jpg?height=300&width=300",
+      "/placeholder.svg?height=300&width=300"
+    ],
+    "categories": [
+      "Feminino",
+      "Acessório",
+      "Bolsa"
+    ],
+    "rating": 4.7,
+    "sold": 90
+  },
+  {
+    "id": "18",
+    "name": "Cinto Couro Masculino",
+    "price": 79.90,
+    "description": "Cinto masculino em couro legítimo.",
+    "fullDescription": "Cinto masculino elegante confeccionado em couro legítimo de alta qualidade. Fivela clássica e ajuste perfeito. Ideal para complementar looks sociais e casuais.",
+    "images": [
+      "/img/masculino/cinto_couro.jpg?height=300&width=300",
+      "/placeholder.svg?height=300&width=300"
+    ],
+    "categories": [
+      "Masculino",
+      "Acessório"
+    ],
+    "rating": 4.8,
+    "sold": 105
+  },
+  {
+    "id": "19",
+    "name": "Meia Calça Infantil Fio 40",
+    "price": 34.90,
+    "description": "Meia calça infantil de fio 40, conforto e durabilidade.",
+    "fullDescription": "Meia calça infantil resistente e confortável, ideal para o dia a dia e ocasiões especiais. Fio 40 que oferece durabilidade e toque suave. Disponível em várias cores.",
+    "images": [
+      "/img/infantil/meia_calca_infantil.jpg?height=300&width=300",
+      "/placeholder.svg?height=300&width=300"
+    ],
+    "categories": [
+      "Infantil",
+      "Acessório"
+    ],
+    "rating": 4.4,
+    "sold": 60
+  },
+  {
+    "id": "20",
+    "name": "Macacão Jeans Feminino",
+    "price": 189.90,
+    "description": "Macacão jeans feminino com lavagem vintage.",
+    "fullDescription": "Macacão jeans feminino com lavagem vintage e caimento perfeito. Possui botões frontais, bolsos laterais e alças ajustáveis. Peça versátil para looks modernos e despojados.",
+    "images": [
+      "/img/feminino/macacao_jeans.jpg?height=300&width=300",
+      "/placeholder.svg?height=300&width=300"
+    ],
+    "categories": [
+      "Feminino",
+      "Macacão",
+      "Jeans"
+    ],
+    "rating": 4.7,
+    "sold": 45
+  }
+];
+
+        // Global State
+        let cartItems = [];
+        let currentPage = 1;
+        const itemsPerPage = 12;
+        let currentSearchTerm = '';
+        let currentSortBy = 'popular';
+        let currentSelectedCategories = [];
+        let currentPriceRange = [0, 1000]; // Default range
+
+        // DOM Elements
+        const productGrid = document.getElementById('productGrid');
+        const cartItemCount = document.getElementById('cartItemCount');
+        const cartSidebar = document.getElementById('cartSidebar');
+        const cartItemsContainer = document.getElementById('cartItemsContainer');
+        const cartTotalDisplay = document.getElementById('cartTotal');
+        const emptyCartMessage = cartItemsContainer.querySelector('.empty-cart-message');
+
+        const productModal = document.getElementById('productModal');
+        const modalMainImage = document.getElementById('modalMainImage');
+        const modalThumbnails = document.getElementById('modalThumbnails');
+        const modalProductName = document.getElementById('modalProductName');
+        const modalProductPrice = document.getElementById('modalProductPrice');
+        const modalProductDescription = document.getElementById('modalProductDescription');
+        const modalAddToCartBtn = document.getElementById('modalAddToCartBtn');
+        const modalBuyNowBtn = document.getElementById('modalBuyNowBtn');
+
+        const filterSearchInput = document.getElementById('filterSearchInput');
+        const sortSelect = document.getElementById('sortSelect');
+        const toggleFiltersButton = document.getElementById('toggleFiltersButton');
+        const expandedFilters = document.getElementById('expandedFilters');
+        const categoryFiltersContainer = document.getElementById('categoryFilters');
+        const activeFiltersDisplay = document.getElementById('activeFilters');
+        const paginationControls = document.getElementById('paginationControls');
+
+        const priceThumbMin = document.getElementById('priceThumbMin');
+        const priceThumbMax = document.getElementById('priceThumbMax');
+        const priceRangeTrack = document.getElementById('priceRangeTrack');
+        const priceMinDisplay = document.getElementById('priceMinDisplay');
+        const priceMaxDisplay = document.getElementById('priceMaxDisplay');
+
+        // --- Helper Functions ---
+        function formatCurrency(value) {
+            return `R$ ${value.toFixed(2).replace('.', ',')}`;
+        }
+
+        function generateWhatsAppLink(message) {
+            const whatsappNumber = '5592984737304'; // Replace with your WhatsApp number
+            return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+        }
+
+        // --- Product Rendering ---
+        function createProductCard(product) {
+            const card = document.createElement('div');
+            card.className = 'product-card';
+            card.dataset.productId = product.id;
+
+            card.innerHTML = `
+                <div class="position-relative">
+                    <img src="${product.images[0] || '/placeholder.svg'}" alt="${product.name}" class="product-card-image">
+                    ${product.isPromo && product.discount ? `<span class="discount-badge">-${product.discount}%</span>` : ''}
+                    <button class="like-button" data-product-id="${product.id}"><i class="bi bi-heart"></i></button>
+                </div>
+                <div class="product-card-body">
+                    <div>
+                        <h3 class="product-card-title">${product.name}</h3>
+                        <div class="product-card-price">
+                            ${formatCurrency(product.price)}
+                            ${product.originalPrice ? `<span class="product-card-original-price">${formatCurrency(product.originalPrice)}</span>` : ''}
+                        </div>
+                        <div class="product-card-info">
+                            ${product.rating ? `<div class="rating"><i class="bi bi-star-fill"></i><span>${product.rating}</span></div>` : ''}
+                            ${product.sold ? `<span>${product.sold} vendidos</span>` : ''}
+                        </div>
+                    </div>
+                    <div class="product-card-actions">
+                        <button class="buy-now" data-product-id="${product.id}">Comprar Agora</button>
+                        <button class="add-to-cart" data-product-id="${product.id}"><i class="bi bi-cart3"></i></button>
+                    </div>
+                </div>
+            `;
+
+            card.querySelector('.product-card-image').addEventListener('click', (e) => {
+                e.stopPropagation();
+                openProductModal(product);
+            });
+            card.querySelector('.product-card-title').addEventListener('click', (e) => {
+                e.stopPropagation();
+                openProductModal(product);
+            });
+            card.querySelector('.buy-now').addEventListener('click', (e) => {
+                e.stopPropagation();
+                const message = `Olá! Gostaria de comprar:\n1x ${product.name} - ${formatCurrency(product.price)}\n\nTotal: ${formatCurrency(product.price)}`;
+                window.open(generateWhatsAppLink(message), '_blank');
+            });
+            card.querySelector('.add-to-cart').addEventListener('click', (e) => {
+                e.stopPropagation();
+                addItemToCart(product, 1);
+            });
+            card.querySelector('.like-button').addEventListener('click', (e) => {
+                e.stopPropagation();
+                e.currentTarget.classList.toggle('liked');
+                e.currentTarget.querySelector('i').classList.toggle('bi-heart');
+                e.currentTarget.querySelector('i').classList.toggle('bi-heart-fill');
+            });
+
+            return card;
+        }
+
+        function renderProducts(productsToRender) {
+            productGrid.innerHTML = '';
+            if (productsToRender.length === 0) {
+                productGrid.innerHTML = '<p style="text-align: center; grid-column: 1 / -1; color: #666;">Nenhum produto encontrado.</p>';
+                return;
+            }
+            productsToRender.forEach(product => {
+                productGrid.appendChild(createProductCard(product));
+            });
+        }
+
+        // --- Product Modal ---
+        let currentModalProduct = null;
+        function openProductModal(product) {
+            currentModalProduct = product;
+            modalMainImage.src = product.images[0] || '/placeholder.svg';
+            modalProductName.textContent = product.name;
+            modalProductPrice.textContent = formatCurrency(product.price);
+            modalProductDescription.textContent = product.fullDescription;
+
+            modalThumbnails.innerHTML = '';
+            product.images.forEach((imgSrc, index) => {
+                const img = document.createElement('img');
+                img.src = imgSrc || '/placeholder.svg';
+                img.alt = `${product.name} thumbnail ${index + 1}`;
+                img.className = `modal-thumbnail ${index === 0 ? 'active' : ''}`;
+                img.addEventListener('click', () => {
+                    modalMainImage.src = imgSrc;
+                    Array.from(modalThumbnails.children).forEach(thumb => thumb.classList.remove('active'));
+                    img.classList.add('active');
+                });
+                modalThumbnails.appendChild(img);
+            });
+
+            modalAddToCartBtn.onclick = () => {
+                addItemToCart(product, 1);
+                closeProductModal();
+            };
+            modalBuyNowBtn.onclick = () => {
+                const message = `Olá! Gostaria de comprar:\n1x ${product.name} - ${formatCurrency(product.price)}\n\nTotal: ${formatCurrency(product.price)}`;
+                window.open(generateWhatsAppLink(message), '_blank');
+                closeProductModal();
+            };
+
+            productModal.style.display = 'flex';
+        }
+
+        function closeProductModal() {
+            productModal.style.display = 'none';
+            currentModalProduct = null;
+        }
+
+        // --- Cart Management ---
+        function updateCartDisplay() {
+            const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+            cartItemCount.textContent = totalItems;
+
+            cartItemsContainer.innerHTML = '';
+            if (cartItems.length === 0) {
+                emptyCartMessage.style.display = 'block';
+            } else {
+                emptyCartMessage.style.display = 'none';
+                cartItems.forEach(item => {
+                    const itemDiv = document.createElement('div');
+                    itemDiv.className = 'cart-item';
+                    itemDiv.innerHTML = `
+                        <img src="${item.image || '/placeholder.svg'}" alt="${item.name}">
+                        <div class="cart-item-details">
+                            <h4>${item.name}</h4>
+                            <p class="price">${formatCurrency(item.price)}</p>
+                        </div>
+                        <div class="cart-item-quantity">
+                            <button data-id="${item.id}" data-action="decrease">-</button>
+                            <span>${item.quantity}</span>
+                            <button data-id="${item.id}" data-action="increase">+</button>
+                        </div>
+                        <button class="cart-item-remove" data-id="${item.id}"><i class="bi bi-trash"></i></button>
+                    `;
+                    cartItemsContainer.appendChild(itemDiv);
+                });
+            }
+
+            const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+            cartTotalDisplay.textContent = formatCurrency(total);
+
+            // Add event listeners for quantity and remove buttons in cart
+            cartItemsContainer.querySelectorAll('.cart-item-quantity button').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const id = e.currentTarget.dataset.id;
+                    const action = e.currentTarget.dataset.action;
+                    const item = cartItems.find(i => i.id === id);
+                    if (item) {
+                        if (action === 'increase') {
+                            updateItemQuantity(id, item.quantity + 1);
+                        } else if (action === 'decrease') {
+                            updateItemQuantity(id, item.quantity - 1);
+                        }
+                    }
+                });
+            });
+            cartItemsContainer.querySelectorAll('.cart-item-remove').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    removeItemFromCart(e.currentTarget.dataset.id);
+                });
+            });
+        }
+
+        function addItemToCart(product, quantity) {
+            const existingItem = cartItems.find(item => item.id === product.id);
+            if (existingItem) {
+                existingItem.quantity += quantity;
+            } else {
+                cartItems.push({
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    image: product.images[0],
+                    quantity: quantity
+                });
+            }
+            updateCartDisplay();
+            openCartSidebar();
+        }
+
+        function updateItemQuantity(id, quantity) {
+            if (quantity <= 0) {
+                removeItemFromCart(id);
+                return;
+            }
+            const item = cartItems.find(i => i.id === id);
+            if (item) {
+                item.quantity = quantity;
+            }
+            updateCartDisplay();
+        }
+
+        function removeItemFromCart(id) {
+            cartItems = cartItems.filter(item => item.id !== id);
+            updateCartDisplay();
+        }
+
+        function openCartSidebar() {
+            cartSidebar.classList.add('open');
+        }
+
+        function closeCartSidebar() {
+            cartSidebar.classList.remove('open');
+        }
+
+        // --- Filters, Search, Sort, Pagination ---
+        function getFilteredAndSortedProducts() {
+            let filtered = products.filter(product => {
+                const matchesSearch = product.name.toLowerCase().includes(currentSearchTerm.toLowerCase()) ||
+                                      product.description.toLowerCase().includes(currentSearchTerm.toLowerCase());
+                const matchesCategories = currentSelectedCategories.length === 0 ||
+                                          currentSelectedCategories.some(cat => product.categories.includes(cat));
+                const matchesPrice = product.price >= currentPriceRange[0] && product.price <= currentPriceRange[1];
+                return matchesSearch && matchesCategories && matchesPrice;
+            });
+
+            filtered.sort((a, b) => {
+                switch (currentSortBy) {
+                    case 'price-low': return a.price - b.price;
+                    case 'price-high': return b.price - a.price;
+                    case 'rating': return (b.rating || 0) - (a.rating || 0);
+                    case 'newest': return parseInt(b.id) - parseInt(a.id);
+                    default: // popular
+                        return (b.sold || 0) - (a.sold || 0);
+                }
+            });
+            return filtered;
+        }
+
+        function updateProductCatalog() {
+            const filteredAndSorted = getFilteredAndSortedProducts();
+            const totalPages = Math.ceil(filteredAndSorted.length / itemsPerPage);
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const paginated = filteredAndSorted.slice(startIndex, startIndex + itemsPerPage);
+
+            renderProducts(paginated);
+            updatePaginationControls(totalPages);
+            updateActiveFiltersDisplay();
+        }
+
+        function updatePaginationControls(totalPages) {
+            paginationControls.innerHTML = '';
+            const maxPagesToShow = 5; // Number of page buttons to show around current page
+
+            const createPageButton = (page, text, isActive = false, isDisabled = false) => {
+                const button = document.createElement('button');
+                button.textContent = text;
+                if (isActive) button.classList.add('active');
+                if (isDisabled) button.disabled = true;
+                button.addEventListener('click', () => {
+                    if (!isDisabled && typeof page === 'number') {
+                        currentPage = page;
+                        updateProductCatalog();
+                    }
+                });
+                return button;
+            };
+
+            // Previous button
+            paginationControls.appendChild(createPageButton(currentPage - 1, 'Anterior', false, currentPage === 1));
+
+            // Page numbers
+            let startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
+            let endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
+
+            if (endPage - startPage + 1 < maxPagesToShow) {
+                startPage = Math.max(1, endPage - maxPagesToShow + 1);
+            }
+
+            if (startPage > 1) {
+                paginationControls.appendChild(createPageButton(1, '1'));
+                if (startPage > 2) {
+                    const dots = document.createElement('span');
+                    dots.textContent = '...';
+                    paginationControls.appendChild(dots);
+                }
+            }
+
+            for (let i = startPage; i <= endPage; i++) {
+                paginationControls.appendChild(createPageButton(i, i.toString(), i === currentPage));
+            }
+
+            if (endPage < totalPages) {
+                if (endPage < totalPages - 1) {
+                    const dots = document.createElement('span');
+                    dots.textContent = '...';
+                    paginationControls.appendChild(dots);
+                }
+                paginationControls.appendChild(createPageButton(totalPages, totalPages.toString()));
+            }
+
+            // Next button
+            paginationControls.appendChild(createPageButton(currentPage + 1, 'Próximo', false, currentPage === totalPages));
+        }
+
+        function populateCategoryFilters() {
+            const allCategories = [...new Set(products.flatMap(p => p.categories))];
+            categoryFiltersContainer.innerHTML = '';
+            allCategories.forEach(category => {
+                const tag = document.createElement('span');
+                tag.className = `filter-tag ${currentSelectedCategories.includes(category) ? '' : 'outline'}`;
+                tag.textContent = category;
+                tag.dataset.category = category;
+                tag.addEventListener('click', () => {
+                    if (currentSelectedCategories.includes(category)) {
+                        currentSelectedCategories = currentSelectedCategories.filter(c => c !== category);
+                    } else {
+                        currentSelectedCategories.push(category);
+                    }
+                    populateCategoryFilters(); // Re-render categories to update active state
+                    updateProductCatalog();
+                });
+                categoryFiltersContainer.appendChild(tag);
+            });
+        }
+
+        function updateActiveFiltersDisplay() {
+            activeFiltersDisplay.innerHTML = '';
+            if (currentSearchTerm) {
+                const searchTag = document.createElement('span');
+                searchTag.className = 'filter-tag';
+                searchTag.innerHTML = `"${currentSearchTerm}" <i class="bi bi-x-circle-fill"></i>`;
+                searchTag.addEventListener('click', () => {
+                    currentSearchTerm = '';
+                    filterSearchInput.value = '';
+                    updateProductCatalog();
+                });
+                activeFiltersDisplay.appendChild(searchTag);
+            }
+            currentSelectedCategories.forEach(category => {
+                const categoryTag = document.createElement('span');
+                categoryTag.className = 'filter-tag';
+                categoryTag.innerHTML = `${category} <i class="bi bi-x-circle-fill"></i>`;
+                categoryTag.addEventListener('click', () => {
+                    currentSelectedCategories = currentSelectedCategories.filter(c => c !== category);
+                    populateCategoryFilters();
+                    updateProductCatalog();
+                });
+                activeFiltersDisplay.appendChild(categoryTag);
+            });
+            // Add price range filter display if needed
+            if (currentPriceRange[0] > 0 || currentPriceRange[1] < 1000) {
+                const priceTag = document.createElement('span');
+                priceTag.className = 'filter-tag';
+                priceTag.innerHTML = `Preço: ${formatCurrency(currentPriceRange[0])} - ${formatCurrency(currentPriceRange[1])} <i class="bi bi-x-circle-fill"></i>`;
+                priceTag.addEventListener('click', () => {
+                    currentPriceRange = [0, 1000];
+                    updatePriceRangeDisplay();
+                    updateProductCatalog();
+                });
+                activeFiltersDisplay.appendChild(priceTag);
+            }
+        }
+
+        // --- Price Range Slider ---
+        let isDraggingMin = false;
+        let isDraggingMax = false;
+
+        function updatePriceRangeDisplay() {
+            priceMinDisplay.textContent = formatCurrency(currentPriceRange[0]);
+            priceMaxDisplay.textContent = formatCurrency(currentPriceRange[1]);
+
+            const sliderWidth = priceRangeTrack.parentElement.offsetWidth;
+            const minPos = (currentPriceRange[0] / 1000) * sliderWidth;
+            const maxPos = (currentPriceRange[1] / 1000) * sliderWidth;
+
+            priceThumbMin.style.left = `${minPos}px`;
+            priceThumbMax.style.left = `${maxPos}px`;
+            priceRangeTrack.style.left = `${minPos}px`;
+            priceRangeTrack.style.width = `${maxPos - minPos}px`;
+        }
+
+        function handleThumbDrag(e, thumbType) {
+            const sliderRect = priceRangeTrack.parentElement.getBoundingClientRect();
+            const newX = e.clientX - sliderRect.left;
+            let newValue = Math.round((newX / sliderRect.width) * 1000 / 10) * 10;
+            newValue = Math.max(0, Math.min(1000, newValue));
+
+            if (thumbType === 'min') {
+                currentPriceRange[0] = Math.min(newValue, currentPriceRange[1]);
+            } else {
+                currentPriceRange[1] = Math.max(newValue, currentPriceRange[0]);
+            }
+            updatePriceRangeDisplay();
+            updateProductCatalog();
+        }
+
+        // --- Carousel Logic ---
+        let currentBannerIndex = 0;
+        let bannerInterval;
+        const carouselInner = document.querySelector('.carousel-inner');
+        const carouselItems = document.querySelectorAll('.carousel-item');
+        const carouselDotsContainer = document.getElementById('carouselDots');
+
+        function updateCarousel() {
+            carouselInner.style.transform = `translateX(-${currentBannerIndex * 100}%)`;
+            Array.from(carouselDotsContainer.children).forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentBannerIndex);
+            });
+        }
+
+        function startBannerCarousel() {
+            bannerInterval = setInterval(() => {
+                currentBannerIndex = (currentBannerIndex + 1) % carouselItems.length;
+                updateCarousel();
+            }, 5000);
+        }
+
+        function stopBannerCarousel() {
+            clearInterval(bannerInterval);
+        }
+
+        // --- Event Listeners ---
+        document.addEventListener('DOMContentLoaded', () => {
+            updateCartDisplay();
+            populateCategoryFilters();
+            updatePriceRangeDisplay();
+            updateProductCatalog(); // Initial render
+
+            // Header Buttons
+            document.getElementById('cartButton').addEventListener('click', openCartSidebar);
+            document.getElementById('cartCloseBtn').addEventListener('click', closeCartSidebar);
+            document.getElementById('modalCloseBtn').addEventListener('click', closeProductModal);
+            document.getElementById('floatingWhatsAppBtn').addEventListener('click', () => {
+                const message = "Olá! Vim através do catálogo VitrineZap. Gostaria de mais informações sobre os produtos.";
+                window.open(generateWhatsAppLink(message), '_blank');
+            });
+
+            // Checkout Button
+            document.getElementById('checkoutBtn').addEventListener('click', () => {
+                if (cartItems.length === 0) {
+                    alert('Seu carrinho está vazio!');
+                    return;
+                }
+                const itemsList = cartItems
+                    .map(item => `${item.quantity}x ${item.name} (${formatCurrency(item.price)} cada)`)
+                    .join('\n');
+                const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+                const message = `Olá! Gostaria de pedir:\n\n${itemsList}\n\nTotal: ${formatCurrency(total)}`;
+                window.open(generateWhatsAppLink(message), '_blank');
+                closeCartSidebar();
+                cartItems = []; // Clear cart after checkout
+                updateCartDisplay();
+            });
+
+            // Filters & Search
+            filterSearchInput.addEventListener('input', (e) => {
+                currentSearchTerm = e.target.value;
+                currentPage = 1; // Reset page on new search
+                updateProductCatalog();
+            });
+
+            sortSelect.addEventListener('change', (e) => {
+                currentSortBy = e.target.value;
+                updateProductCatalog();
+            });
+
+            toggleFiltersButton.addEventListener('click', () => {
+                expandedFilters.style.display = expandedFilters.style.display === 'none' ? 'block' : 'none';
+            });
+
+            // Price Range Slider Events
+            priceThumbMin.addEventListener('mousedown', () => isDraggingMin = true);
+            priceThumbMax.addEventListener('mousedown', () => isDraggingMax = true);
+
+            document.addEventListener('mouseup', () => {
+                isDraggingMin = false;
+                isDraggingMax = false;
+            });
+
+            document.addEventListener('mousemove', (e) => {
+                if (isDraggingMin) {
+                    handleThumbDrag(e, 'min');
+                } else if (isDraggingMax) {
+                    handleThumbDrag(e, 'max');
+                }
+            });
+
+            // Carousel Navigation
+            document.getElementById('carouselPrev').addEventListener('click', () => {
+                stopBannerCarousel();
+                currentBannerIndex = (currentBannerIndex - 1 + carouselItems.length) % carouselItems.length;
+                updateCarousel();
+                startBannerCarousel();
+            });
+            document.getElementById('carouselNext').addEventListener('click', () => {
+                stopBannerCarousel();
+                currentBannerIndex = (currentBannerIndex + 1) % carouselItems.length;
+                updateCarousel();
+                startBannerCarousel();
+            });
+
+            // Carousel Dots
+            carouselItems.forEach((_, index) => {
+                const dot = document.createElement('button');
+                dot.className = 'carousel-dot';
+                dot.addEventListener('click', () => {
+                    stopBannerCarousel();
+                    currentBannerIndex = index;
+                    updateCarousel();
+                    startBannerCarousel();
+                });
+                carouselDotsContainer.appendChild(dot);
+            });
+            updateCarousel(); // Initial dot state
+            startBannerCarousel(); // Start auto-play
+        });
+    </script>
+</body>
+</html>
